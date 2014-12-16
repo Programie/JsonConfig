@@ -1,0 +1,17 @@
+{
+	"path.to.my.value" :
+	{
+		"defaultValue" : "Some default value"
+	},
+	"path.to.my.defaultValue" :
+	{
+		"defaultValue" : "Set by template"
+	},
+	"path.to.my.otherValue" :
+	{
+	},
+	"path.to.another.path" :
+	{
+		"defaultValue" : "This is the default value"
+	}
+}

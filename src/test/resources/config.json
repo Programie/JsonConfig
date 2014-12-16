@@ -1,0 +1,17 @@
+{
+	"path" :
+	{
+		"to" :
+		{
+			"my" :
+			{
+				"value" : "Replaced by user config",
+				"otherValue" : "This is the value"
+			},
+			"another" :
+			{
+				"path" : "my path"
+			}
+		}
+	}
+}
