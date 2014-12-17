@@ -128,12 +128,12 @@ class Config
 
 		$itemData = $this->configData->{$name};
 
-		if (isset($itemData->value) and $itemData->value !== null)
+		if (isset($itemData->value))
 		{
 			return $itemData->value;
 		}
 
-		if (isset($itemData->defaultValue) and $itemData->defaultValue !== null)
+		if (isset($itemData->defaultValue))
 		{
 			return $itemData->defaultValue;
 		}
