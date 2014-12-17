@@ -32,4 +32,21 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertFalse($this->config->hasValue("path.to.not.existing.value"));
 	}
+
+	public function testSaveLoad()
+	{
+		$filename = tempnam(sys_get_temp_dir(), "cfg");
+
+		$saveConfig = new Config(__DIR__ . "/../resources/config.json", __DIR__ . "/../resources/config.template.json");
+
+		$saveConfig->setValue("path.to.my.value", "Some value");
+
+		$saveConfig->save($filename);
+
+		$loadedConfig = new Config($filename, __DIR__ . "/../resources/config.template.json");
+
+		$this->assertEquals("Some value", $loadedConfig->getValue("path.to.my.value"));
+
+		unlink($filename);
+	}
 }

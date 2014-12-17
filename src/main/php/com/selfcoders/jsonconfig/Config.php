@@ -142,6 +142,33 @@ class Config
 	}
 
 	/**
+	 * Set the value of the given property path.
+	 *
+	 * @param string $name The dotted path to the configuration value (e.g. "path.to.the.value")
+	 * @param mixed $value The value for the configuration value. This can be anything JSON supports (e.g. boolean, integer, string, array or map)
+	 *
+	 * @throws UnknownConfigValueException If the configuration value is not defined in the template
+	 */
+	public function setValue($name, $value)
+	{
+		if (!$this->hasValue($name))
+		{
+			throw new UnknownConfigValueException($name);
+		}
+
+		$itemData = $this->configData->{$name};
+
+		if ($value === $itemData->defaultValue)
+		{
+			unset($itemData->value);
+		}
+		else
+		{
+			$itemData->value = $value;
+		}
+	}
+
+	/**
 	 * Get the full configuration data map
 	 *
 	 * @return \StdClass The configuration data map
