@@ -70,4 +70,21 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 		$this->config->setValue("path.to.not.existing.value", "some value");
 	}
+
+	public function testGetConfigData()
+	{
+		$data = $this->config->getConfigData();
+
+		$this->assertInstanceOf("StdClass", $data);
+
+		$this->assertInstanceOf("StdClass", $data->{"path.to.unset.value"});
+
+		$this->assertFalse(isset($data->{"path.to.unset.value"}->value));
+		$this->assertFalse(isset($data->{"path.to.unset.value"}->defaultValue));
+
+		$this->assertInstanceOf("StdClass", $data->{"path.to.my.value"});
+
+		$this->assertTrue(isset($data->{"path.to.my.value"}->value));
+		$this->assertTrue(isset($data->{"path.to.my.value"}->defaultValue));
+	}
 }
