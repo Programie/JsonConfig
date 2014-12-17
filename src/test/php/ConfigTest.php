@@ -49,4 +49,25 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 		unlink($filename);
 	}
+
+	public function testGetUnsetValue()
+	{
+		$this->setExpectedException("com\\selfcoders\\jsonconfig\\exception\\UnsetConfigValueException");
+
+		$this->config->getValue("path.to.unset.value");
+	}
+
+	public function testGetUndefinedValue()
+	{
+		$this->setExpectedException("com\\selfcoders\\jsonconfig\\exception\\UnknownConfigValueException");
+
+		$this->config->getValue("path.to.not.existing.value");
+	}
+
+	public function testSetUndefinedValue()
+	{
+		$this->setExpectedException("com\\selfcoders\\jsonconfig\\exception\\UnknownConfigValueException");
+
+		$this->config->setValue("path.to.not.existing.value", "some value");
+	}
 }
