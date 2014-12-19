@@ -77,19 +77,15 @@ class Config
 
 		foreach ($this->configData as $name => $itemData)
 		{
-			$value = null;
-
 			if (isset($itemData->value))
 			{
-				$value = $itemData->value;
+				ValueByPath::setValueByPath($data, $name, $itemData->value, true);
 			}
 
-			if (isset($itemData->defaultValue) and $value == $itemData->defaultValue)
+			if (isset($itemData->value) and isset($itemData->defaultValue) and $itemData->value == $itemData->defaultValue)
 			{
-				$value = null;
+				ValueByPath::removeValueByPath($data, $name);
 			}
-
-			ValueByPath::setValueByPath($data, $name, $value, true);
 		}
 
 		file_put_contents($configFile, json_encode($data, $jsonOptions));

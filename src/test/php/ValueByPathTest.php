@@ -58,4 +58,46 @@ class ValueByPathTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse(isset($tree->a->b->c->d));
 	}
+
+	public function testRemoveValueByPath()
+	{
+		$c = new StdClass;
+		$c->d1 = "This is the value";
+		$c->d2 = "This will be removed";
+
+		$b = new StdClass;
+		$b->c = $c;
+
+		$a = new StdClass;
+		$a->b = $b;
+
+		$tree = new StdClass;
+		$tree->a = $a;
+
+		$this->assertTrue(ValueByPath::removeValueByPath($tree, "a.b.c.d2"));
+
+		$this->assertTrue(isset($tree->a->b->c->d1));
+		$this->assertFalse(isset($tree->a->b->c->d2));
+	}
+
+	public function testRemoveValueByPathNotExisting()
+	{
+		$c = new StdClass;
+		$c->d1 = "This is the value";
+		$c->d2 = "This will be removed";
+
+		$b = new StdClass;
+		$b->c = $c;
+
+		$a = new StdClass;
+		$a->b = $b;
+
+		$tree = new StdClass;
+		$tree->a = $a;
+
+		$this->assertFalse(ValueByPath::removeValueByPath($tree, "a.b.c.d3"));
+
+		$this->assertTrue(isset($tree->a->b->c->d1));
+		$this->assertTrue(isset($tree->a->b->c->d2));
+	}
 }

@@ -66,8 +66,34 @@ class ValueByPath
 			$dataTree->{$name} = $object;
 		}
 
-		ValueByPath::setValueByPath($object, implode(".", array_slice($pathParts, 1)), $value, $add);
+		return ValueByPath::setValueByPath($object, implode(".", array_slice($pathParts, 1)), $value, $add);
+	}
 
-		return true;
+	/**
+	 * Remove the value of the property specified by the given path in the data tree.
+	 *
+	 * @param \StdClass $dataTree A tree of StdClass objects
+	 * @param string $path The path to the property which should be removed
+	 *
+	 * @return bool true if the property has been removed successfully, false if not (e.g. property not existing in tree)
+	 */
+	public static function removeValueByPath($dataTree, $path)
+	{
+		$pathParts = explode(".", $path);
+
+		$name = $pathParts[0];
+
+		if (!isset($dataTree->{$name}))
+		{
+			return false;
+		}
+
+		if (count($pathParts) == 1)
+		{
+			unset($dataTree->{$name});
+			return true;
+		}
+
+		return ValueByPath::removeValueByPath($dataTree->{$name}, implode(".", array_slice($pathParts, 1)));
 	}
 }

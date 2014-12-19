@@ -50,6 +50,23 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		unlink($filename);
 	}
 
+	public function testSaveDefaultValue()
+	{
+		$filename = tempnam(sys_get_temp_dir(), "cfg");
+
+		$saveConfig = new Config(__DIR__ . "/../resources/config.json", __DIR__ . "/../resources/config.template.json");
+
+		$saveConfig->setValue("path.to.another.path", "This is the default value");
+
+		$saveConfig->save($filename);
+
+		$json = json_decode(file_get_contents($filename));
+
+		$this->assertFalse(isset($json->path->to->another->path));
+
+		unlink($filename);
+	}
+
 	public function testGetUnsetValue()
 	{
 		$this->setExpectedException("com\\selfcoders\\jsonconfig\\exception\\UnsetConfigValueException");
