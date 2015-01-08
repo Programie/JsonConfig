@@ -106,6 +106,42 @@ class Config
 	}
 
 	/**
+	 * Check whether the given configuration value has a default value.
+	 *
+	 * @param string $name The dotted path to the configuration value (e.g. "path.to.the.value")
+	 *
+	 * @return bool true if the configuration value has a default value, false otherwise
+	 * @throws UnknownConfigValueException If the configuration value is not defined in the template
+	 */
+	public function hasDefaultValue($name)
+	{
+		if (!$this->hasValue($name))
+		{
+			throw new UnknownConfigValueException($name);
+		}
+
+		return isset($this->configData->{$name}->defaultValue);
+	}
+
+	/**
+	 * Check whether the given configuration value has a user defined value (not the default value).
+	 *
+	 * @param string $name The dotted path to the configuration value (e.g. "path.to.the.value")
+	 *
+	 * @return bool true if the configuration value has a user defined value, false otherwise
+	 * @throws UnknownConfigValueException If the configuration value is not defined in the template
+	 */
+	public function isValueSet($name)
+	{
+		if (!$this->hasValue($name))
+		{
+			throw new UnknownConfigValueException($name);
+		}
+
+		return isset($this->configData->{$name}->value);
+	}
+
+	/**
 	 * Get the value of the given configuration path.
 	 *
 	 * @param string $name The dotted path to the configuration value (e.g. "path.to.the.value")

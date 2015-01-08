@@ -104,4 +104,17 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($data->{"path.to.my.value"}->value));
 		$this->assertTrue(isset($data->{"path.to.my.value"}->defaultValue));
 	}
+
+	public function testHasDefaultValue()
+	{
+		$this->assertTrue($this->config->hasDefaultValue("path.to.my.defaultValue"));
+		$this->assertFalse($this->config->hasDefaultValue("path.to.my.otherValue"));
+	}
+
+	public function testIsValueSet()
+	{
+		$this->assertTrue($this->config->isValueSet("path.to.my.value"));
+		$this->assertTrue($this->config->isValueSet("path.to.my.otherValue"));
+		$this->assertFalse($this->config->isValueSet("path.to.unset.value"));
+	}
 }
