@@ -65,8 +65,9 @@ class Config
 	 *
 	 * @param null|string $configFile An optional path to a JSON file to which the data should be written instead of the $configFile defined on instance creation
 	 * @param int $jsonOptions Optional options passed to json_encode (e.g. JSON_PRETTY_PRINT)
+	 * @param bool $saveUnset Whether to also write unset and default values
 	 */
-	public function save($configFile = null, $jsonOptions = 0)
+	public function save($configFile = null, $jsonOptions = 0, $saveUnset = false)
 	{
 		if ($configFile == null)
 		{
@@ -81,8 +82,16 @@ class Config
 			{
 				ValueByPath::setValueByPath($data, $name, $itemData->value, true);
 			}
+			elseif ($saveUnset and isset($itemData->defaultValue))
+			{
+				ValueByPath::setValueByPath($data, $name, $itemData->defaultValue, true);
+			}
+			elseif ($saveUnset)
+			{
+				ValueByPath::setValueByPath($data, $name, null, true);
+			}
 
-			if (isset($itemData->value) and isset($itemData->defaultValue) and $itemData->value == $itemData->defaultValue)
+			if (!$saveUnset and isset($itemData->value) and isset($itemData->defaultValue) and $itemData->value == $itemData->defaultValue)
 			{
 				ValueByPath::removeValueByPath($data, $name);
 			}

@@ -117,4 +117,17 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->config->isValueSet("path.to.my.otherValue"));
 		$this->assertFalse($this->config->isValueSet("path.to.unset.value"));
 	}
+
+	public function testSaveUnset()
+	{
+		$filename = tempnam(sys_get_temp_dir(), "cfg");
+
+		$this->config->save($filename, 0, true);
+		$json = json_decode(file_get_contents($filename));
+
+		$this->assertEquals("Set by template", $json->path->to->my->defaultValue);
+		$this->assertNull($json->path->to->unset->value);
+
+		unlink($filename);
+	}
 }
