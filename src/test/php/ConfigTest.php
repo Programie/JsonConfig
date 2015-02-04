@@ -130,4 +130,11 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 		unlink($filename);
 	}
+
+	public function testLoadInvalidJson()
+	{
+		$this->setExpectedException("com\\selfcoders\\jsonconfig\\exception\\JsonException");
+
+		new Config(__DIR__ . "/../resources/invalid.json", __DIR__ . "/../resources/config.template.json");
+	}
 }

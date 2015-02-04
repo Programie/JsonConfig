@@ -1,6 +1,7 @@
 <?php
 namespace com\selfcoders\jsonconfig;
 
+use com\selfcoders\jsonconfig\exception\JsonException;
 use com\selfcoders\jsonconfig\exception\UnknownConfigValueException;
 use com\selfcoders\jsonconfig\exception\UnsetConfigValueException;
 
@@ -37,6 +38,8 @@ class Config
 	 * Load or reload the configuration from the specified configuration file and template
 	 *
 	 * @param null|string $configFile An optional path to a JSON file which should be loaded instead of the $configFile defined on instance creation
+	 *
+	 * @throws JsonException If the configuration file could not be parsed
 	 */
 	public function load($configFile = null)
 	{
@@ -50,12 +53,14 @@ class Config
 		if (file_exists($configFile))
 		{
 			$configData = json_decode(file_get_contents($configFile));
-			if ($configData)
+			if (!$configData)
 			{
-				foreach ($this->configData as $name => $itemData)
-				{
-					$itemData->value = ValueByPath::getValueByPath($configData, $name);
-				}
+				throw new JsonException();
+			}
+
+			foreach ($this->configData as $name => $itemData)
+			{
+				$itemData->value = ValueByPath::getValueByPath($configData, $name);
 			}
 		}
 	}
