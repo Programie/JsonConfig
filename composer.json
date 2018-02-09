@@ -2,12 +2,12 @@
   "name": "programie/jsonconfig",
   "description": "A simple PHP class for reading configuration values from JSON files",
   "minimum-stability": "stable",
-  "license": "",
+  "license": "MIT",
   "authors": [
     {
       "name": "Michael Wieland",
       "email": "jsonconfig@selfcoders.com",
-      "homepage": "http://selfcoders.com",
+      "homepage": "https://selfcoders.com",
       "role": "Developer"
     }
   ],
